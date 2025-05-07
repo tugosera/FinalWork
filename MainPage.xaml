@@ -1,0 +1,31 @@
+﻿<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinalWork.MainPage">
+
+    <AbsoluteLayout>
+
+        <!-- Левая верхняя кнопка -->
+        <ImageButton
+            Clicked="OnLeftTopClicked"
+            AbsoluteLayout.LayoutBounds="40, 120, 120, 100"
+            AbsoluteLayout.LayoutFlags="None"
+            Source="dotnet_bot.png"
+            BackgroundColor="Transparent"
+            Aspect="AspectFill"
+            />
+
+        <!-- Правая верхняя кнопка -->
+        <Button Text=""
+                Clicked="OnRightTopClicked"
+                AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
+                AbsoluteLayout.LayoutFlags="None" />
+
+        <!-- Нижняя кнопка -->
+        <Button Text=""
+                Clicked="OnBottomClicked"
+                AbsoluteLayout.LayoutBounds="80, 450, 250, 60"
+                AbsoluteLayout.LayoutFlags="None" />
+
+    </AbsoluteLayout>
+
+</ContentPage>
