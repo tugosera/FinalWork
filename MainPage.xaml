@@ -4,7 +4,6 @@
 
     <AbsoluteLayout>
 
-        <!-- Левая верхняя кнопка -->
         <ImageButton
             Clicked="OnLeftTopClicked"
             AbsoluteLayout.LayoutBounds="40, 120, 120, 100"
@@ -14,13 +13,11 @@
             Aspect="AspectFill"
             />
 
-        <!-- Правая верхняя кнопка -->
         <Button Text=""
                 Clicked="OnRightTopClicked"
                 AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
                 AbsoluteLayout.LayoutFlags="None" />
 
-        <!-- Нижняя кнопка -->
         <Button Text=""
                 Clicked="OnBottomClicked"
                 AbsoluteLayout.LayoutBounds="80, 450, 250, 60"

@@ -1,37 +1,14 @@
-<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="FinalWork.Heroes"
-             Title="Heroes">
+             x:Class="FinalWork.Heroes">
 
-    <VerticalStackLayout>
-        <HorizontalStackLayout BackgroundColor="#EEEEEE" Padding="0" Spacing="0">
-            <Button Text=""
-                    WidthRequest="100"
-                    CornerRadius="0"
-                    BorderColor ="White"
-                    BorderWidth ="1"
-                    BackgroundColor="#000000"/>
-            <Button Text=""
-                    WidthRequest="100"
-                    BorderColor ="White"
-                    BorderWidth ="1"
-                    CornerRadius="0"
-                    BackgroundColor="#000000"/>
-            <Button Text="" 
-                    WidthRequest="100"
-                    BorderColor ="White"
-                    BorderWidth ="1"
-                    CornerRadius="0"
-                    BackgroundColor="#000000"/>
-            <Button Text="" 
-                    WidthRequest="100"
-                    BorderColor ="White"
-                    BorderWidth ="1"
-                    CornerRadius="0"
-                    BackgroundColor="#000000"/>
-        </HorizontalStackLayout>
-
-    </VerticalStackLayout>
-
+    <ScrollView>
+        <Grid x:Name="HeroesGrid"
+              Padding="10"
+              ColumnSpacing="10"
+              RowSpacing="10"
+              ColumnDefinitions="*,*,*">
+            <!-- Герои будут добавлены из C# -->
+        </Grid>
+    </ScrollView>
 </ContentPage>
