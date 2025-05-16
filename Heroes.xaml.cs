@@ -46,7 +46,7 @@ await _database.AddHeroAsync(new DotaHero { Name = "Sven", IconUrl = "https://cd
 await _database.AddHeroAsync(new DotaHero { Name = "Tiny", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/tiny.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Vengefulspirit", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/vengefulspirit.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Windrunner", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/windrunner.png" });
-await _database.AddHeroAsync(new DotaHero { Name = "Zeus", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/zeus.png" });
+await _database.AddHeroAsync(new DotaHero { Name = "Zeus", IconUrl = "https://static.wikia.nocookie.net/dota2_gamepedia/images/3/3f/Zeus_icon.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Kunkka", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/kunkka.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Lina", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lina.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Lich", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/lich.png" });
@@ -74,7 +74,7 @@ await _database.AddHeroAsync(new DotaHero { Name = "Viper", IconUrl = "https://c
 await _database.AddHeroAsync(new DotaHero { Name = "Luna", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/luna.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Dragon Knight", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dragon_knight.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Dazzle", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/dazzle.png" });
-await _database.AddHeroAsync(new DotaHero { Name = "Clockwerk", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/clockwerk.png" });
+await _database.AddHeroAsync(new DotaHero { Name = "Clockwerk", IconUrl = "https://static.wikia.nocookie.net/dota2_gamepedia/images/d/d8/Clockwerk_icon.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Leshrac", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/leshrac.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Furion", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/furion.png" });
 await _database.AddHeroAsync(new DotaHero { Name = "Life Stealer", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/life_stealer.png" });
