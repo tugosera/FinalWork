@@ -157,7 +157,7 @@ await _database.AddHeroAsync(new DotaHero { Name = "Muerta", IconUrl = "https://
             HeroesGrid.Children.Clear();
             HeroesGrid.RowDefinitions.Clear();
             HeroesGrid.ColumnDefinitions.Clear();
-
+             
             int columns = 3;
             for (int i = 0; i < columns; i++)
                 HeroesGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
