@@ -9,25 +9,29 @@
                     CornerRadius="0"
                     BorderColor="white"
                     BorderWidth="1"
-                    BackgroundColor="#000000"/>
+                    BackgroundColor="#000000"
+                    Clicked="OnStrengthClicked"/>
             <ImageButton Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2d/Agility_attribute_symbol.png"
                     WidthRequest="100"
                     CornerRadius="0"
                     BorderColor="white"
                     BorderWidth="1"
-                    BackgroundColor="#000000"/>
+                    BackgroundColor="#000000"
+                    Clicked="OnAgilityClicked"/>
             <ImageButton Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/56/Intelligence_attribute_symbol.png"
                     WidthRequest="100"
                     CornerRadius="0"
                     BorderColor="white"
                     BorderWidth="1"
-                    BackgroundColor="#000000"/>
+                    BackgroundColor="#000000"
+                    Clicked="OnIntelligenceClicked"/>
             <ImageButton Source="https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/muerta.png"
                     WidthRequest="100"
                     CornerRadius="0"
                     BorderColor="white"
                     BorderWidth="1"
-                    BackgroundColor="#000000"/>
+                    BackgroundColor="#000000"
+                    Clicked="OnUniversalClicked"/>
         </HorizontalStackLayout>
 
         <ScrollView Grid.Row="1">
