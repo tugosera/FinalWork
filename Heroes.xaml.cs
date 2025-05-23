@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+//using Android.Hardware.Camera2.Params;
 using Microsoft.Maui.Controls;
 using SQLite;
 
@@ -11,7 +12,7 @@ namespace FinalWork
     public partial class Heroes : ContentPage
     {
         private DotaDatabase _database;
-        private List<DotaHero> _allHeroes; // Добавлено поле
+        private List<DotaHero> _allHeroes;
 
         public Heroes()
         {
@@ -26,7 +27,6 @@ namespace FinalWork
             base.OnAppearing();
             _allHeroes = await _database.GetHeroesAsync();
 
-            // Добавляем героев в БД при первом запуске
             if ((await _database.GetHeroesAsync()).Count == 0)
             {
                 await _database.AddHeroAsync(new DotaHero { Name = "Antimage", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png", MainAttribute = "Agility" });
@@ -176,6 +176,9 @@ namespace FinalWork
                     Source = hero.IconUrl,
                     WidthRequest = 100,
                     HeightRequest = 100,
+                    BorderColor = Colors.Black,
+                    BorderWidth = 1,
+                    CornerRadius = 0,
                     BackgroundColor = Colors.Transparent,
                     Aspect = Aspect.AspectFill
                 };
@@ -199,24 +202,28 @@ namespace FinalWork
 
         private void OnStrengthClicked(object sender, EventArgs e)
         {
+            if (_allHeroes == null) return;
             var filtered = _allHeroes.Where(h => h.MainAttribute == "Strength");
             GenerateHeroButtons(filtered);
         }
 
         private void OnAgilityClicked(object sender, EventArgs e)
         {
+            if (_allHeroes == null) return;
             var filtered = _allHeroes.Where(h => h.MainAttribute == "Agility");
             GenerateHeroButtons(filtered);
         }
 
         private void OnIntelligenceClicked(object sender, EventArgs e)
         {
+            if (_allHeroes == null) return;
             var filtered = _allHeroes.Where(h => h.MainAttribute == "Intelligence");
             GenerateHeroButtons(filtered);
         }
 
         private void OnUniversalClicked(object sender, EventArgs e)
         {
+            if (_allHeroes == null) return;
             var filtered = _allHeroes.Where(h => h.MainAttribute == "Universal");
             GenerateHeroButtons(filtered);
         }
@@ -248,37 +255,3 @@ namespace FinalWork
         public Task<int> AddHeroAsync(DotaHero hero) => _db.InsertAsync(hero);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

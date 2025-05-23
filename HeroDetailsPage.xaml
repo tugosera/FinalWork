@@ -1,0 +1,9 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             x:Class="FinalWork.HeroDetailsPage"
+             Title="Детали героя">
+    <StackLayout Padding="20" Spacing="20">
+        <Image x:Name="HeroImage" HeightRequest="200" Aspect="AspectFill"/>
+        <Label x:Name="HeroNameLabel" FontSize="24" FontAttributes="Bold" />
+        <Label x:Name="HeroAttributeLabel" FontSize="18" />
+    </StackLayout>
+</ContentPage>
