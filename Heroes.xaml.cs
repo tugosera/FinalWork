@@ -166,7 +166,7 @@ namespace FinalWork
             int columns = 3;
             for (int i = 0; i < columns; i++)
                 HeroesGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-
+             
             var heroList = heroes.ToList();
             for (int i = 0; i < heroList.Count; i++)
             {
