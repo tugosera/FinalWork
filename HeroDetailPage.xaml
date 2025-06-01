@@ -1,0 +1,41 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinalWork.HeroDetailPage"
+             BackgroundColor="White">
+
+    <Grid RowDefinitions="Auto,Auto,*" Padding="10">
+
+        <!-- Иконка героя по центру -->
+        <Image x:Name="HeroIcon" 
+               Grid.Row="0" 
+               HorizontalOptions="Center" 
+               WidthRequest="150" HeightRequest="150" 
+               Aspect="AspectFill" />
+
+        <!-- Имя и атрибут (имя слева, атрибут справа) -->
+        <Grid Grid.Row="1" Margin="0,10,0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label x:Name="HeroName" 
+                   Grid.Column="0" 
+                   VerticalOptions="Center" 
+                   FontSize="24" 
+                   TextColor="Black" />
+
+            <Image x:Name="AttributeIcon" 
+                   Grid.Column="1" 
+                   WidthRequest="30" HeightRequest="30" 
+                   VerticalOptions="Center" />
+        </Grid>
+
+        <!-- WebView с URL -->
+        <WebView x:Name="HeroWebView" 
+                 Grid.Row="2" 
+                 VerticalOptions="FillAndExpand" 
+                 HorizontalOptions="FillAndExpand" />
+    </Grid>
+
+</ContentPage>

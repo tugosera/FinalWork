@@ -29,7 +29,7 @@ namespace FinalWork
 
             if ((await _database.GetHeroesAsync()).Count == 0)
             {
-                await _database.AddHeroAsync(new DotaHero { Name = "Antimage", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png", MainAttribute = "Agility" });
+                await _database.AddHeroAsync(new DotaHero { Name = "Antimage", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/antimage.png", MainAttribute = "Agility", InfoUrl = "https://www.dota2.com/hero/anti-mage" });
                 await _database.AddHeroAsync(new DotaHero { Name = "Axe", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/axe.png", MainAttribute = "Strength" });
                 await _database.AddHeroAsync(new DotaHero { Name = "Bane", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bane.png", MainAttribute = "Universal" });
                 await _database.AddHeroAsync(new DotaHero { Name = "Bloodseeker", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/bloodseeker.png", MainAttribute = "Agility" });
@@ -166,7 +166,7 @@ namespace FinalWork
             int columns = 3;
             for (int i = 0; i < columns; i++)
                 HeroesGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
-             
+
             var heroList = heroes.ToList();
             for (int i = 0; i < heroList.Count; i++)
             {
@@ -180,13 +180,10 @@ namespace FinalWork
                     BorderWidth = 1,
                     CornerRadius = 0,
                     BackgroundColor = Colors.Transparent,
-                    Aspect = Aspect.AspectFill
+                    Aspect = Aspect.AspectFill,
                 };
 
-                button.Clicked += (s, e) =>
-                {
-                    DisplayAlert("Герой", hero.Name, "OK");
-                };
+                button.Clicked += (s, e) => OnHeroSelected(hero);
 
                 int row = i / columns;
                 int column = i % columns;
@@ -227,6 +224,11 @@ namespace FinalWork
             var filtered = _allHeroes.Where(h => h.MainAttribute == "Universal");
             GenerateHeroButtons(filtered);
         }
+
+        private async void OnHeroSelected(DotaHero hero)
+        {
+            await Navigation.PushAsync(new HeroDetailPage(hero));
+        }
     }
 
     public class DotaHero
@@ -239,6 +241,8 @@ namespace FinalWork
         public string IconUrl { get; set; }
 
         public string MainAttribute { get; set; }
+
+        public string InfoUrl { get; set; }  // Новое поле для ссылки
     }
 
     public class DotaDatabase
