@@ -3,41 +3,39 @@
              x:Class="FinalWork.Heroes">
 
     <Grid RowDefinitions="Auto,*">
-        <HorizontalStackLayout Grid.Row="0">
-            <ImageButton Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/7/7a/Strength_attribute_symbol.png"
-                    WidthRequest="89"
-                    HeightRequest="70"
-                    CornerRadius="0"
-                    BorderColor="white"
-                    BorderWidth="1"
-                    BackgroundColor="#000000"
-                    Clicked="OnStrengthClicked"/>
-            <ImageButton Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2d/Agility_attribute_symbol.png"
-                    WidthRequest="89"
-                    HeightRequest="70"
-                    CornerRadius="0"
-                    BorderColor="white"
-                    BorderWidth="1"
-                    BackgroundColor="#000000"
-                    Clicked="OnAgilityClicked"/>
-            <ImageButton Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/56/Intelligence_attribute_symbol.png"
-                    WidthRequest="89"
-                    HeightRequest="70"
-                    CornerRadius="0"
-                    BorderColor="white"
-                    BorderWidth="1"
-                    BackgroundColor="#000000"
-                    Clicked="OnIntelligenceClicked"/>
-            <ImageButton Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/1/1c/Universal_attribute_symbol.png"
-                    WidthRequest="89"
-                    HeightRequest="70"
-                    CornerRadius="0"
-                    BorderColor="white"
-                    BorderWidth="1"
-                    BackgroundColor="#000000"
-                    Clicked="OnUniversalClicked"/>
-        </HorizontalStackLayout>
+        <!-- Навигационное меню с кнопками -->
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*" HeightRequest="70">
+            <ImageButton Grid.Column="0"
+                         Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/7/7a/Strength_attribute_symbol.png"
+                         CornerRadius="0"
+                         BorderColor="white"
+                         BorderWidth="1"
+                         BackgroundColor="#000000"
+                         Clicked="OnStrengthClicked"/>
+            <ImageButton Grid.Column="1"
+                         Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2d/Agility_attribute_symbol.png"
+                         CornerRadius="0"
+                         BorderColor="white"
+                         BorderWidth="1"
+                         BackgroundColor="#000000"
+                         Clicked="OnAgilityClicked"/>
+            <ImageButton Grid.Column="2"
+                         Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/56/Intelligence_attribute_symbol.png"
+                         CornerRadius="0"
+                         BorderColor="white"
+                         BorderWidth="1"
+                         BackgroundColor="#000000"
+                         Clicked="OnIntelligenceClicked"/>
+            <ImageButton Grid.Column="3"
+                         Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/1/1c/Universal_attribute_symbol.png"
+                         CornerRadius="0"
+                         BorderColor="white"
+                         BorderWidth="1"
+                         BackgroundColor="#000000"
+                         Clicked="OnUniversalClicked"/>
+        </Grid>
 
+        <!-- Контент с героями -->
         <ScrollView Grid.Row="1">
             <Grid x:Name="HeroesGrid"
                   Padding="10"
