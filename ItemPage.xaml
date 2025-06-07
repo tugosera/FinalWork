@@ -3,10 +3,16 @@
              x:Class="FinalWork.ItemPage"
              BackgroundColor="DimGray">
 
-    <StackLayout Padding="10" Spacing="10">
+    <!-- Заменяем StackLayout на Grid -->
+    <Grid Padding="10" RowSpacing="10">
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="60" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
 
         <!-- Навигационное меню -->
-        <Grid ColumnDefinitions="*,*,*" HeightRequest="60" ColumnSpacing="8">
+        <Grid Grid.Row="0" ColumnDefinitions="*,*,*" ColumnSpacing="8">
 
             <Border Grid.Column="0"
                     Stroke="Black"
@@ -54,10 +60,23 @@
             </Border>
         </Grid>
 
-        <!-- Сетка предметов -->
-        <ScrollView>
-            <Grid x:Name="ItemGrid" />
-        </ScrollView>
+        <!-- CollectionView с сеткой 3 столбца, занимает всё оставшееся место -->
+        <CollectionView x:Name="ItemCollectionView"
+                        Grid.Row="1"
+                        ItemsLayout="VerticalGrid, 3"
+                        SelectionMode="Single"
+                        SelectionChanged="OnItemSelected">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="5" Margin="5" BackgroundColor="Transparent" HasShadow="False" CornerRadius="0">
+                        <Image Source="{Binding IconUrl}"
+                               Aspect="AspectFill"
+                               WidthRequest="100"
+                               HeightRequest="100" />
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
 
-    </StackLayout>
+    </Grid>
 </ContentPage>

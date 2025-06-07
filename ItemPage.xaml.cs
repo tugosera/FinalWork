@@ -2,6 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Text.Json;
+using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
 using SQLite;
 
@@ -24,81 +27,97 @@ namespace FinalWork
         {
             base.OnAppearing();
 
-            if ((await _database.GetItemsAsync()).Count == 0)
-            {
-                await _database.AddItemAsync(new DotaItem { Name = "Tango", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/tango.png", IsComposite = false, IsNeutral = false, InfoUrl = "https://www.dotabuff.com/items/tango" });
-                await _database.AddItemAsync(new DotaItem { Name = "Phase Boots", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/phase_boots.png", IsComposite = true, IsNeutral = false, InfoUrl = "https://www.dotabuff.com/items/phase-boots" });
-                await _database.AddItemAsync(new DotaItem { Name = "Arcane Ring", IconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/arcane_ring.png", IsComposite = false, IsNeutral = true, InfoUrl = "https://www.dotabuff.com/items/arcane-ring" });
-            }
+            // Очистка базы перед загрузкой новых данных
+            await _database.ClearItemsAsync();
+
+            var items = await FetchDotaItemsAsync();
+
+            foreach (var item in items)
+                await _database.AddItemAsync(item);
 
             _allItems = await _database.GetItemsAsync();
-            GenerateItemButtons(_allItems);
+            ShowItems(_allItems);
         }
 
-        private void GenerateItemButtons(IEnumerable<DotaItem> items)
+        private void ShowItems(IEnumerable<DotaItem> items)
         {
-            ItemGrid.Children.Clear();
-            ItemGrid.RowDefinitions.Clear();
-            ItemGrid.ColumnDefinitions.Clear();
+            ItemCollectionView.ItemsSource = items;
+        }
 
-            int columns = 3;
-            for (int i = 0; i < columns; i++)
-                ItemGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Star });
+        private async Task<List<DotaItem>> FetchDotaItemsAsync()
+        {
+            var items = new List<DotaItem>();
+            var httpClient = new HttpClient();
+            var response = await httpClient.GetStringAsync("https://api.opendota.com/api/constants/items");
+            var jsonDoc = JsonDocument.Parse(response);
 
-            var itemList = items.ToList();
-            for (int i = 0; i < itemList.Count; i++)
+            foreach (var itemElement in jsonDoc.RootElement.EnumerateObject())
             {
-                var item = itemList[i];
-                var button = new ImageButton
+                var key = itemElement.Name;
+                var data = itemElement.Value;
+
+                if (!data.TryGetProperty("dname", out var nameProp)) continue;
+                var name = nameProp.GetString();
+
+                var shortKey = key.Replace("item_", "");
+
+                // Если ключ начинается с recipe — используем общую иконку рецепта
+                string iconUrl;
+                if (shortKey.StartsWith("recipe"))
                 {
-                    Source = item.IconUrl,
-                    WidthRequest = 100,
-                    HeightRequest = 100,
-                    BorderColor = Colors.Black,
-                    BorderWidth = 1,
-                    CornerRadius = 0,
-                    BackgroundColor = Colors.Transparent,
-                    Aspect = Aspect.AspectFill,
-                };
+                    iconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/recipe.png";
+                }
+                else
+                {
+                    iconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/{shortKey}.png";
+                }
 
-                button.Clicked += (s, e) => OnItemSelected(item);
+                var isComposite = data.TryGetProperty("components", out var components) && components.ValueKind == JsonValueKind.Array && components.GetArrayLength() > 0;
+                var isNeutral = data.TryGetProperty("neutral_item", out var neutralProp) && neutralProp.GetBoolean();
+                var infoUrl = $"https://www.dotabuff.com/items/{shortKey.Replace("_", "-")}";
 
-                int row = i / columns;
-                int column = i % columns;
-
-                while (ItemGrid.RowDefinitions.Count <= row)
-                    ItemGrid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
-
-                Grid.SetRow(button, row);
-                Grid.SetColumn(button, column);
-                ItemGrid.Children.Add(button);
+                items.Add(new DotaItem
+                {
+                    Name = name,
+                    IconUrl = iconUrl,
+                    IsComposite = isComposite,
+                    IsNeutral = isNeutral,
+                    InfoUrl = infoUrl
+                });
             }
-        }
 
-        private async void OnItemSelected(DotaItem item)
-        {
-            await Navigation.PushAsync(new ItemDetailPage(item));
+            return items;
         }
 
         private void OnNormalClicked(object sender, EventArgs e)
         {
             if (_allItems == null) return;
             var filtered = _allItems.Where(i => !i.IsComposite && !i.IsNeutral);
-            GenerateItemButtons(filtered);
+            ShowItems(filtered);
         }
 
         private void OnCompositeClicked(object sender, EventArgs e)
         {
             if (_allItems == null) return;
             var filtered = _allItems.Where(i => i.IsComposite && !i.IsNeutral);
-            GenerateItemButtons(filtered);
+            ShowItems(filtered);
         }
 
         private void OnNeutralClicked(object sender, EventArgs e)
         {
             if (_allItems == null) return;
             var filtered = _allItems.Where(i => i.IsNeutral);
-            GenerateItemButtons(filtered);
+            ShowItems(filtered);
+        }
+
+        private async void OnItemSelected(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.CurrentSelection.FirstOrDefault() is DotaItem selectedItem)
+            {
+                await Navigation.PushAsync(new ItemDetailPage(selectedItem));
+                // Сброс выделения
+                ((CollectionView)sender).SelectedItem = null;
+            }
         }
     }
 
@@ -106,7 +125,6 @@ namespace FinalWork
     {
         [PrimaryKey, AutoIncrement]
         public int Id { get; set; }
-
         public string Name { get; set; }
         public string IconUrl { get; set; }
         public string InfoUrl { get; set; }
@@ -126,5 +144,6 @@ namespace FinalWork
 
         public Task<List<DotaItem>> GetItemsAsync() => _db.Table<DotaItem>().ToListAsync();
         public Task<int> AddItemAsync(DotaItem item) => _db.InsertAsync(item);
+        public Task<int> ClearItemsAsync() => _db.DeleteAllAsync<DotaItem>();
     }
 }
