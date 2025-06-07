@@ -72,8 +72,32 @@ namespace FinalWork
                     iconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/{shortKey}.png";
                 }
 
-                var isComposite = data.TryGetProperty("components", out var components) && components.ValueKind == JsonValueKind.Array && components.GetArrayLength() > 0;
-                var isNeutral = data.TryGetProperty("neutral_item", out var neutralProp) && neutralProp.GetBoolean();
+                var isComposite = data.TryGetProperty("components", out var components) &&
+                                  components.ValueKind == JsonValueKind.Array &&
+                                  components.GetArrayLength() > 0;
+
+                // Проверка на нейтральность
+                bool isNeutral = false;
+
+                if (data.TryGetProperty("neutral_item", out var neutralProp))
+                {
+                    isNeutral = neutralProp.ValueKind switch
+                    {
+                        JsonValueKind.True => true,
+                        JsonValueKind.Number => neutralProp.GetInt32() == 1,
+                        _ => false
+                    };
+                }
+                else if (data.TryGetProperty("item_neutral", out var itemNeutralProp))
+                {
+                    isNeutral = itemNeutralProp.ValueKind switch
+                    {
+                        JsonValueKind.True => true,
+                        JsonValueKind.Number => itemNeutralProp.GetInt32() == 1,
+                        _ => false
+                    };
+                }
+
                 var infoUrl = $"https://www.dotabuff.com/items/{shortKey.Replace("_", "-")}";
 
                 items.Add(new DotaItem
@@ -115,8 +139,7 @@ namespace FinalWork
             if (e.CurrentSelection.FirstOrDefault() is DotaItem selectedItem)
             {
                 await Navigation.PushAsync(new ItemDetailPage(selectedItem));
-                // Сброс выделения
-                ((CollectionView)sender).SelectedItem = null;
+                ((CollectionView)sender).SelectedItem = null; // сброс выделения
             }
         }
     }
