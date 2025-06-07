@@ -13,10 +13,12 @@
             Aspect="AspectFill"
             />
 
-        <Button Text=""
+        <ImageButton 
+                Source="dotnet_bot.png"
                 Clicked="OnRightTopClicked"
                 AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
-                AbsoluteLayout.LayoutFlags="None" />
+                AbsoluteLayout.LayoutFlags="None" 
+                Aspect="AspectFill"/>
 
         <Button Text=""
                 Clicked="OnBottomClicked"

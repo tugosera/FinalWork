@@ -12,24 +12,14 @@
                WidthRequest="150" HeightRequest="150" 
                Aspect="AspectFill" />
 
-        <!-- Имя и атрибут (имя слева, атрибут справа) -->
-        <Grid Grid.Row="1" Margin="0,10,0,10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*" />
-                <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-
-            <Label x:Name="HeroName" 
-                   Grid.Column="0" 
-                   VerticalOptions="Center" 
-                   FontSize="24" 
-                   TextColor="Black" />
-
-            <Image x:Name="AttributeIcon" 
-                   Grid.Column="1" 
-                   WidthRequest="30" HeightRequest="30" 
-                   VerticalOptions="Center" />
-        </Grid>
+        <!-- Имя героя по центру -->
+        <Label x:Name="HeroName"
+               Grid.Row="1"
+               HorizontalOptions="Center"
+               VerticalOptions="Center"
+               FontSize="24"
+               TextColor="Black"
+               Margin="0,10" />
 
         <!-- WebView с URL -->
         <WebView x:Name="HeroWebView" 

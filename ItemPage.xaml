@@ -1,0 +1,63 @@
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="FinalWork.ItemPage"
+             BackgroundColor="DimGray">
+
+    <StackLayout Padding="10" Spacing="10">
+
+        <!-- Навигационное меню -->
+        <Grid ColumnDefinitions="*,*,*" HeightRequest="60" ColumnSpacing="8">
+
+            <Border Grid.Column="0"
+                    Stroke="Black"
+                    StrokeThickness="1"
+                    BackgroundColor="Transparent"
+                    StrokeShape="Rectangle">
+                <Button Text="Обычные"
+                        Clicked="OnNormalClicked"
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill" />
+            </Border>
+
+            <Border Grid.Column="1"
+                    Stroke="Black"
+                    StrokeThickness="1"
+                    BackgroundColor="Transparent"
+                    StrokeShape="Rectangle">
+                <Button Text="Сборные"
+                        Clicked="OnCompositeClicked"
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill" />
+            </Border>
+
+            <Border Grid.Column="2"
+                    Stroke="Black"
+                    StrokeThickness="1"
+                    BackgroundColor="Transparent"
+                    StrokeShape="Rectangle">
+                <Button Text="Нейтральные"
+                        Clicked="OnNeutralClicked"
+                        BackgroundColor="White"
+                        TextColor="Black"
+                        FontAttributes="Bold"
+                        FontSize="16"
+                        HorizontalOptions="Fill"
+                        VerticalOptions="Fill" />
+            </Border>
+        </Grid>
+
+        <!-- Сетка предметов -->
+        <ScrollView>
+            <Grid x:Name="ItemGrid" />
+        </ScrollView>
+
+    </StackLayout>
+</ContentPage>

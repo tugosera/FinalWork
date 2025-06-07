@@ -14,9 +14,9 @@
             await Navigation.PushAsync(new Heroes());
         }
 
-        private void OnRightTopClicked(object sender, EventArgs e)
+        private async void OnRightTopClicked(object sender, EventArgs e)
         {
-            DisplayAlert("Кнопка нажата", "Вы нажали кнопку с логотипом Dota", "OK");
+            await Navigation.PushAsync(new ItemPage());
         }
 
         private void OnBottomClicked(object sender, EventArgs e)

@@ -19,24 +19,24 @@ namespace FinalWork
             HeroName.Text = _hero.Name;
 
             // Выбираем иконку атрибута героя по его MainAttribute
-            switch (_hero.MainAttribute?.ToLower())
-            {
-                case "strength":
-                    AttributeIcon.Source = "strength_icon.png"; // Иконка силы
-                    break;
-                case "agility":
-                    AttributeIcon.Source = "agility_icon.png";  // Иконка ловкости
-                    break;
-                case "intelligence":
-                    AttributeIcon.Source = "intelligence_icon.png"; // Иконка интеллекта
-                    break;
-                case "universal":
-                    AttributeIcon.Source = "universal_icon.png"; // Иконка универсального
-                    break;
-                default:
-                    AttributeIcon.Source = null;
-                    break;
-            }
+            //switch (_hero.MainAttribute?.ToLower())
+            //{
+            //    case "strength":
+            //        AttributeIcon.Source = "strength_icon.png"; // Иконка силы
+            //        break;
+            //    case "agility":
+            //        AttributeIcon.Source = "agility_icon.png";  // Иконка ловкости
+            //        break;
+            //    case "intelligence":
+            //        AttributeIcon.Source = "intelligence_icon.png"; // Иконка интеллекта
+            //        break;
+            //    case "universal":
+            //        AttributeIcon.Source = "universal_icon.png"; // Иконка универсального
+            //        break;
+            //    default:
+            //        AttributeIcon.Source = null;
+            //        break;
+            //}
 
             // Загружаем URL в WebView или показываем сообщение, если ссылки нет
             if (!string.IsNullOrWhiteSpace(_hero.InfoUrl))
