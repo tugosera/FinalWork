@@ -5,26 +5,49 @@
     <AbsoluteLayout>
 
         <ImageButton
+            x:Name="LeftTopButton"
             Clicked="OnLeftTopClicked"
             AbsoluteLayout.LayoutBounds="40, 120, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
             Source="dotnet_bot.png"
             BackgroundColor="Transparent"
-            Aspect="AspectFill"
-            />
+            Aspect="AspectFill" />
 
         <ImageButton 
-                Source="dotnet_bot.png"
-                Clicked="OnRightTopClicked"
-                AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
-                AbsoluteLayout.LayoutFlags="None" 
-                Aspect="AspectFill"/>
+            x:Name="RightTopButton"
+            Source="dotnet_bot.png"
+            Clicked="OnRightTopClicked"
+            AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
+            AbsoluteLayout.LayoutFlags="None"
+            Aspect="AspectFill" />
 
-        <Button Text=""
-                Clicked="OnBottomClicked"
-                AbsoluteLayout.LayoutBounds="80, 450, 250, 60"
-                AbsoluteLayout.LayoutFlags="None" />
+        <Button 
+            x:Name="BottomButton"
+            Text=""
+            Clicked="OnBottomClicked"
+            AbsoluteLayout.LayoutBounds="80, 450, 250, 60"
+            AbsoluteLayout.LayoutFlags="None" />
 
+        <!-- Кнопка входа -->
+        <ImageButton 
+            x:Name="LoginButton"
+            Source="login_icon.png"
+            Clicked="OnLoginClicked"
+            AbsoluteLayout.LayoutBounds="360, 40, 40, 40"
+            AbsoluteLayout.LayoutFlags="None"
+            BackgroundColor="White"
+            CornerRadius="20"/>
+
+        <!-- Кнопка выхода -->
+        <Button
+            x:Name="LogoutButton"
+            Text="Logout"
+            BackgroundColor="Red"
+            TextColor="White"
+            Clicked="OnLogoutClicked"
+            AbsoluteLayout.LayoutBounds="360, 40, 80, 40"
+            AbsoluteLayout.LayoutFlags="None"
+            IsVisible="False" />
     </AbsoluteLayout>
 
 </ContentPage>
