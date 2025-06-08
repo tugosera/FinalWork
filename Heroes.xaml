@@ -1,48 +1,42 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FinalWork.Heroes">
-
     <Grid RowDefinitions="Auto,*">
-        <!-- Навигационное меню с кнопками -->
+        <!-- Навигационное меню -->
         <Grid Grid.Row="0" ColumnDefinitions="*,*,*,*" HeightRequest="70">
             <ImageButton Grid.Column="0"
                          Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/7/7a/Strength_attribute_symbol.png"
-                         CornerRadius="0"
+                         BackgroundColor="#000000"
                          BorderColor="white"
                          BorderWidth="1"
-                         BackgroundColor="#000000"
-                         Clicked="OnStrengthClicked"/>
+                         Clicked="OnStrengthClicked" />
             <ImageButton Grid.Column="1"
                          Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/2/2d/Agility_attribute_symbol.png"
-                         CornerRadius="0"
+                         BackgroundColor="#000000"
                          BorderColor="white"
                          BorderWidth="1"
-                         BackgroundColor="#000000"
-                         Clicked="OnAgilityClicked"/>
+                         Clicked="OnAgilityClicked" />
             <ImageButton Grid.Column="2"
                          Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/5/56/Intelligence_attribute_symbol.png"
-                         CornerRadius="0"
+                         BackgroundColor="#000000"
                          BorderColor="white"
                          BorderWidth="1"
-                         BackgroundColor="#000000"
-                         Clicked="OnIntelligenceClicked"/>
+                         Clicked="OnIntelligenceClicked" />
             <ImageButton Grid.Column="3"
                          Source="https://static.wikia.nocookie.net/dota2_gamepedia/images/1/1c/Universal_attribute_symbol.png"
-                         CornerRadius="0"
+                         BackgroundColor="#000000"
                          BorderColor="white"
                          BorderWidth="1"
-                         BackgroundColor="#000000"
-                         Clicked="OnUniversalClicked"/>
+                         Clicked="OnUniversalClicked" />
         </Grid>
 
-        <!-- Контент с героями -->
+        <!-- Список героев -->
         <ScrollView Grid.Row="1">
             <Grid x:Name="HeroesGrid"
                   Padding="10"
                   ColumnSpacing="10"
                   RowSpacing="10"
                   ColumnDefinitions="*,*,*">
-                <!-- Герои будут добавлены из C# -->
             </Grid>
         </ScrollView>
     </Grid>

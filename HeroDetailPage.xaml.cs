@@ -1,4 +1,6 @@
 using Microsoft.Maui.Controls;
+using System;
+using System.Net.Http;
 
 namespace FinalWork
 {
@@ -9,52 +11,52 @@ namespace FinalWork
         public HeroDetailPage(DotaHero hero)
         {
             InitializeComponent();
-
             _hero = hero;
 
-            // Устанавливаем изображение героя
             HeroIcon.Source = _hero.IconUrl;
-
-            // Устанавливаем имя героя
             HeroName.Text = _hero.Name;
 
-            // Выбираем иконку атрибута героя по его MainAttribute
-            //switch (_hero.MainAttribute?.ToLower())
-            //{
-            //    case "strength":
-            //        AttributeIcon.Source = "strength_icon.png"; // Иконка силы
-            //        break;
-            //    case "agility":
-            //        AttributeIcon.Source = "agility_icon.png";  // Иконка ловкости
-            //        break;
-            //    case "intelligence":
-            //        AttributeIcon.Source = "intelligence_icon.png"; // Иконка интеллекта
-            //        break;
-            //    case "universal":
-            //        AttributeIcon.Source = "universal_icon.png"; // Иконка универсального
-            //        break;
-            //    default:
-            //        AttributeIcon.Source = null;
-            //        break;
-            //}
+            LoadHeroPage(_hero.InfoUrl);
+        }
 
-            // Загружаем URL в WebView или показываем сообщение, если ссылки нет
-            if (!string.IsNullOrWhiteSpace(_hero.InfoUrl))
+        private async void LoadHeroPage(string url)
+        {
+            try
             {
-                var url = _hero.InfoUrl.Trim();
-                if (!url.StartsWith("http://") && !url.StartsWith("https://"))
-                    url = "https://" + url;
+                using var httpClient = new HttpClient();
+                var response = await httpClient.GetAsync(url);
 
-                HeroWebView.Source = url;
+                if (response.IsSuccessStatusCode)
+                {
+                    var html = await response.Content.ReadAsStringAsync();
+
+                    if (string.IsNullOrWhiteSpace(html) || html.Length < 200)
+                    {
+                        HeroWebView.Source = new HtmlWebViewSource
+                        {
+                            Html = $"<html><body><h2>Информация о герое <b>{_hero.Name}</b> недоступна.</h2></body></html>"
+                        };
+                    }
+                    else
+                    {
+                        HeroWebView.Source = url;
+                    }
+                }
+                else
+                {
+                    HeroWebView.Source = new HtmlWebViewSource
+                    {
+                        Html = $"<html><body><h2>Страница для героя <b>{_hero.Name}</b> не найдена.</h2></body></html>"
+                    };
+                }
             }
-            else
+            catch
             {
                 HeroWebView.Source = new HtmlWebViewSource
                 {
-                    Html = "<html><body><h3>Информация отсутствует</h3></body></html>"
+                    Html = $"<html><body><h2>Ошибка загрузки страницы для героя <b>{_hero.Name}</b>.</h2></body></html>"
                 };
             }
         }
-        
     }
 }
