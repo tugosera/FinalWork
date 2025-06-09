@@ -38,22 +38,20 @@ namespace FinalWork
 
             foreach (var hero in heroesFromApi)
             {
-                var shortName = hero.name.Replace("npc_dota_hero_", "");
-                var urlName = shortName.Replace("_", "").Replace("-", "").ToLower();
-
                 string attribute = hero.primary_attr switch
                 {
                     "str" => "Strength",
                     "agi" => "Agility",
                     "int" => "Intelligence",
-                    "all" => "Universal",
                     _ => "Universal"
                 };
+
+                var urlName = await GetValidHeroUrlName(hero.localized_name);
 
                 var heroData = new DotaHero
                 {
                     Name = hero.localized_name,
-                    IconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/{shortName}.png",
+                    IconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/{hero.name.Replace("npc_dota_hero_", "")}.png",
                     InfoUrl = $"https://www.dota2.com/hero/{urlName}",
                     MainAttribute = attribute
                 };
@@ -63,6 +61,58 @@ namespace FinalWork
 
             _allHeroes = await _database.GetHeroesAsync();
             GenerateHeroButtons(_allHeroes);
+        }
+
+        // Метод генерирует варианты url и проверяет содержимое страницы
+        private async Task<string> GetValidHeroUrlName(string localizedName)
+        {
+            var variants = GenerateHeroUrlVariants(localizedName);
+            using var httpClient = new HttpClient();
+
+            foreach (var variant in variants)
+            {
+                string url = $"https://www.dota2.com/hero/{variant}";
+
+                try
+                {
+                    var html = await httpClient.GetStringAsync(url);
+
+                    if (IsValidHeroPage(html))
+                        return variant;
+                }
+                catch
+                {
+                    // Игнорируем ошибки, пробуем следующий вариант
+                }
+            }
+
+            // Если ни один вариант не прошел проверку, возвращаем первый вариант слитно
+            return variants[0];
+        }
+
+        // Проверка, что страница содержит признак героя
+        private bool IsValidHeroPage(string html)
+        {
+            if (string.IsNullOrWhiteSpace(html))
+                return false;
+
+            // Проверяем, содержит ли страница типичные элементы страницы героя
+            return html.Contains("class=\"HeroNameHeader\"") || html.Contains("heroLore");
+        }
+
+        // Генерация двух вариантов url: слитно и через тире
+        private List<string> GenerateHeroUrlVariants(string localizedName)
+        {
+            // Приводим к нижнему регистру и заменяем пробелы
+            string lowerName = localizedName.ToLowerInvariant().Trim();
+
+            // Слитный вариант: убрать пробелы
+            string noSpace = lowerName.Replace(" ", "");
+
+            // Вариант с тире: заменить пробелы на '-'
+            string withDash = lowerName.Replace(" ", "-");
+
+            return new List<string> { noSpace, withDash };
         }
 
         private void GenerateHeroButtons(IEnumerable<DotaHero> heroes)

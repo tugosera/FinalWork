@@ -30,16 +30,17 @@ namespace FinalWork
                 {
                     var html = await response.Content.ReadAsStringAsync();
 
-                    if (string.IsNullOrWhiteSpace(html) || html.Length < 200)
+                    // Надёжная проверка содержимого страницы
+                    if (html.Contains("dota_react_hero") || html.Contains("hero_picker__hero-name") || html.Contains("dota2.com"))
+                    {
+                        HeroWebView.Source = url;
+                    }
+                    else
                     {
                         HeroWebView.Source = new HtmlWebViewSource
                         {
                             Html = $"<html><body><h2>Информация о герое <b>{_hero.Name}</b> недоступна.</h2></body></html>"
                         };
-                    }
-                    else
-                    {
-                        HeroWebView.Source = url;
                     }
                 }
                 else
