@@ -3,9 +3,7 @@
              x:Class="FinalWork.ItemPage"
              BackgroundColor="DimGray">
 
-    <!-- Заменяем StackLayout на Grid -->
     <Grid Padding="10" RowSpacing="10">
-
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
             <RowDefinition Height="*" />
@@ -13,7 +11,6 @@
 
         <!-- Навигационное меню -->
         <Grid Grid.Row="0" ColumnDefinitions="*,*" ColumnSpacing="8">
-
             <Border Grid.Column="0"
                     Stroke="Black"
                     StrokeThickness="1"
@@ -43,26 +40,25 @@
                         HorizontalOptions="Fill"
                         VerticalOptions="Fill" />
             </Border>
-
         </Grid>
 
-        <!-- CollectionView с сеткой 3 столбца, занимает всё оставшееся место -->
+        <!-- Сетка предметов -->
         <CollectionView x:Name="ItemCollectionView"
                         Grid.Row="1"
                         ItemsLayout="VerticalGrid, 3"
-                        SelectionMode="Single"
-                        SelectionChanged="OnItemSelected">
+                        SelectionMode="None">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame Padding="5" Margin="5" BackgroundColor="Transparent" HasShadow="False" CornerRadius="0">
-                        <Image Source="{Binding IconUrl}"
-                               Aspect="AspectFill"
-                               WidthRequest="100"
-                               HeightRequest="100" />
+                        <ImageButton Source="{Binding IconUrl}"
+                                     Clicked="OnItemSelected"
+                                     WidthRequest="100"
+                                     HeightRequest="100"
+                                     BackgroundColor="Transparent"
+                                     CommandParameter="{Binding .}" />
                     </Frame>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
-
     </Grid>
 </ContentPage>

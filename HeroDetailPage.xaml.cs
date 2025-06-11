@@ -55,7 +55,7 @@ namespace FinalWork
             _username = Preferences.Get("LoggedInUsername", null);
             if (string.IsNullOrEmpty(_username))
             {
-                await DisplayAlert("Ошибка", "Надо авторизироваться", "OK");
+                await DisplayAlert("Error", "You have to login before", "OK");
                 return;
             }
 

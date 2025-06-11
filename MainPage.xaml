@@ -8,8 +8,8 @@
         <Label 
             Text="Heroes"
             FontSize="Medium"
-            TextColor="Black"
-            AbsoluteLayout.LayoutBounds="40, 90, 120, 30"
+            TextColor="White"
+            AbsoluteLayout.LayoutBounds="20, 110, 120, 30"
             AbsoluteLayout.LayoutFlags="None"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center" />
@@ -18,7 +18,7 @@
         <ImageButton
             x:Name="LeftTopButton"
             Clicked="OnLeftTopClicked"
-            AbsoluteLayout.LayoutBounds="40, 120, 120, 100"
+            AbsoluteLayout.LayoutBounds="20, 140, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
             Source="pudger.jpg"
             BackgroundColor="Transparent"
@@ -28,8 +28,8 @@
         <Label 
             Text="Items"
             FontSize="Medium"
-            TextColor="Black"
-            AbsoluteLayout.LayoutBounds="230, 90, 120, 30"
+            TextColor="White"
+            AbsoluteLayout.LayoutBounds="210, 110, 120, 30"
             AbsoluteLayout.LayoutFlags="None"
             HorizontalTextAlignment="Center"
             VerticalTextAlignment="Center" />
@@ -39,24 +39,32 @@
             x:Name="RightTopButton"
             Source="mom.jpg"
             Clicked="OnRightTopClicked"
-            AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
+            AbsoluteLayout.LayoutBounds="210, 140, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
             Aspect="AspectFill" />
 
         <!-- Нижняя левая кнопка -->
         <Button 
             x:Name="BottomButton"
-            Text="Favorite items"
+            Text="Favorite heroes"
             Clicked="OnBottomClicked"
-            AbsoluteLayout.LayoutBounds="40, 450, 130, 60"
+            AbsoluteLayout.LayoutBounds="20, 450, 130, 60"
+            TextColor="White"
+            BackgroundColor="DarkBlue"
+            BorderColor="White"
+            BorderWidth="1"
             AbsoluteLayout.LayoutFlags="None" />
 
         <!-- Нижняя правая кнопка -->
         <Button 
             x:Name="RightBottomButton"
-            Text="Favorite heroes"
+            Text="Favorite items"
             Clicked="OnRightBottomClicked"
-            AbsoluteLayout.LayoutBounds="230, 450, 130, 60"
+            AbsoluteLayout.LayoutBounds="210, 450, 130, 60"
+            TextColor="White"
+            BackgroundColor="DarkBlue"
+            BorderColor="White"
+            BorderWidth="1"
             AbsoluteLayout.LayoutFlags="None" />
 
         <!-- Кнопка входа -->
@@ -78,7 +86,7 @@
             BackgroundColor="Red"
             TextColor="White"
             Clicked="OnLogoutClicked"
-            AbsoluteLayout.LayoutBounds="360, 40, 80, 40"
+            AbsoluteLayout.LayoutBounds="280, 40, 90, 40"
             AbsoluteLayout.LayoutFlags="None"
             IsVisible="False" />
 

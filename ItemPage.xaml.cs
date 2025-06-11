@@ -155,12 +155,11 @@ namespace FinalWork
             ShowItems(filtered);
         }
 
-        private async void OnItemSelected(object sender, SelectionChangedEventArgs e)
+        private async void OnItemSelected(object sender, EventArgs e)
         {
-            if (e.CurrentSelection.FirstOrDefault() is DotaItem selectedItem)
+            if (sender is ImageButton button && button.CommandParameter is DotaItem selectedItem)
             {
                 await Navigation.PushAsync(new ItemDetailPage(selectedItem));
-                ((CollectionView)sender).SelectedItem = null; // סבנמס גûהוכוםטÿ
             }
         }
     }

@@ -77,7 +77,7 @@ namespace FinalWork
             bool isLoggedIn = Preferences.Get("IsLoggedIn", false);
             if (!isLoggedIn)
             {
-                await DisplayAlert("Ошибка", "надо авторизироваться", "OK");
+                await DisplayAlert("Error", "You have to login", "OK");
                 return;
             }
 
