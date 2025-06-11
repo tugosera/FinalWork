@@ -4,20 +4,40 @@
 
     <AbsoluteLayout>
 
+        <!-- Надпись над левой верхней кнопкой -->
+        <Label 
+            Text="Heroes"
+            FontSize="Medium"
+            TextColor="Black"
+            AbsoluteLayout.LayoutBounds="40, 90, 120, 30"
+            AbsoluteLayout.LayoutFlags="None"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center" />
+
         <!-- Верхняя левая кнопка -->
         <ImageButton
             x:Name="LeftTopButton"
             Clicked="OnLeftTopClicked"
             AbsoluteLayout.LayoutBounds="40, 120, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
-            Source="pudge.png"
+            Source="pudger.jpg"
             BackgroundColor="Transparent"
             Aspect="AspectFill" />
+
+        <!-- Надпись над правой верхней кнопкой -->
+        <Label 
+            Text="Items"
+            FontSize="Medium"
+            TextColor="Black"
+            AbsoluteLayout.LayoutBounds="230, 90, 120, 30"
+            AbsoluteLayout.LayoutFlags="None"
+            HorizontalTextAlignment="Center"
+            VerticalTextAlignment="Center" />
 
         <!-- Верхняя правая кнопка -->
         <ImageButton 
             x:Name="RightTopButton"
-            Source="furion.png"
+            Source="mom.jpg"
             Clicked="OnRightTopClicked"
             AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
@@ -26,29 +46,30 @@
         <!-- Нижняя левая кнопка -->
         <Button 
             x:Name="BottomButton"
-            Text="лулеул"
+            Text="Favorite items"
             Clicked="OnBottomClicked"
-            AbsoluteLayout.LayoutBounds="40, 450, 120, 60"
+            AbsoluteLayout.LayoutBounds="40, 450, 130, 60"
             AbsoluteLayout.LayoutFlags="None" />
 
         <!-- Нижняя правая кнопка -->
         <Button 
             x:Name="RightBottomButton"
-            Text="Избранные"
+            Text="Favorite heroes"
             Clicked="OnRightBottomClicked"
-            AbsoluteLayout.LayoutBounds="230, 450, 120, 60"
+            AbsoluteLayout.LayoutBounds="230, 450, 130, 60"
             AbsoluteLayout.LayoutFlags="None" />
 
-
         <!-- Кнопка входа -->
-        <ImageButton 
+        <Button
             x:Name="LoginButton"
-            Source="login_icon.png"
+            Text="Login"
             Clicked="OnLoginClicked"
-            AbsoluteLayout.LayoutBounds="360, 40, 40, 40"
-            AbsoluteLayout.LayoutFlags="None"
             BackgroundColor="White"
-            CornerRadius="20"/>
+            TextColor="Black"
+            FontAttributes="Bold"
+            CornerRadius="5"
+            AbsoluteLayout.LayoutBounds="280, 40, 90, 40"
+            AbsoluteLayout.LayoutFlags="None" />
 
         <!-- Кнопка выхода -->
         <Button

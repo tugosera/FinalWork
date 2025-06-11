@@ -30,12 +30,12 @@ namespace FinalWork
                 Preferences.Set("IsLoggedIn", true);
                 Preferences.Set("LoggedInUsername", user.Username);
 
-                await DisplayAlert("Успех", $"Добро пожаловать, {user.Username}!", "OK");
+                await DisplayAlert("Success", $"Welcome, {user.Username}!", "OK");
                 await Navigation.PopAsync();
             }
             else
             {
-                await DisplayAlert("Ошибка", "Неверный логин или пароль", "OK");
+                await DisplayAlert("Error", "Incorrect login or password", "OK");
             }
         }
 
@@ -46,14 +46,14 @@ namespace FinalWork
 
             if (string.IsNullOrWhiteSpace(username) || string.IsNullOrWhiteSpace(password))
             {
-                await DisplayAlert("Ошибка", "Заполните все поля", "OK");
+                await DisplayAlert("Error", "Fill in all fields", "OK");
                 return;
             }
 
             var existingUser = await _db.Table<User>().FirstOrDefaultAsync(u => u.Username == username);
             if (existingUser != null)
             {
-                await DisplayAlert("Ошибка", "Пользователь уже существует", "OK");
+                await DisplayAlert("Error", "User already exists", "OK");
                 return;
             }
 
@@ -63,7 +63,7 @@ namespace FinalWork
             Preferences.Set("IsLoggedIn", true);
             Preferences.Set("LoggedInUsername", newUser.Username);
 
-            await DisplayAlert("Успех", "Регистрация прошла успешно!", "OK");
+            await DisplayAlert("Success", "Registration was successful!", "OK");
             await Navigation.PopAsync();
         }
 

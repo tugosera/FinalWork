@@ -2,17 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="FinalWork.LoginPage"
              BackgroundColor="LightGray"
-             Title="Вход / Регистрация">
+             >
 
     <VerticalStackLayout Padding="30" Spacing="20">
-        <Label Text="Имя пользователя" FontAttributes="Bold"/>
-        <Entry x:Name="UsernameEntry" Placeholder="Введите имя" />
+        <Label Text="Username" FontAttributes="Bold"/>
+        <Entry x:Name="UsernameEntry" Placeholder="insert name" />
 
-        <Label Text="Пароль" FontAttributes="Bold"/>
-        <Entry x:Name="PasswordEntry" Placeholder="Введите пароль" IsPassword="True" />
+        <Label Text="Password" FontAttributes="Bold"/>
+        <Entry x:Name="PasswordEntry" Placeholder="insert password" IsPassword="True" />
 
-        <Button Text="Войти" Clicked="OnLoginClicked" BackgroundColor="LightGreen"/>
-        <Button Text="Зарегистрироваться" Clicked="OnRegisterClicked" BackgroundColor="LightBlue"/>
+        <Button Text="login" Clicked="OnLoginClicked" BackgroundColor="LightGreen"/>
+        <Button Text="sign in" Clicked="OnRegisterClicked" BackgroundColor="LightBlue"/>
     </VerticalStackLayout>
 
 </ContentPage>

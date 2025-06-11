@@ -19,7 +19,7 @@
                     StrokeThickness="1"
                     BackgroundColor="Transparent"
                     StrokeShape="Rectangle">
-                <Button Text="Обычные"
+                <Button Text="Common"
                         Clicked="OnNormalClicked"
                         BackgroundColor="White"
                         TextColor="Black"
@@ -34,7 +34,7 @@
                     StrokeThickness="1"
                     BackgroundColor="Transparent"
                     StrokeShape="Rectangle">
-                <Button Text="Сборные"
+                <Button Text="build-up"
                         Clicked="OnCompositeClicked"
                         BackgroundColor="White"
                         TextColor="Black"
