@@ -37,9 +37,9 @@ namespace FinalWork
             await Navigation.PushAsync(new ItemPage());
         }
 
-        private void OnBottomClicked(object sender, EventArgs e)
+        private async void OnBottomClicked(object sender, EventArgs e)
         {
-            DisplayAlert("Кнопка нажата", "Вы нажали кнопку с логотипом Dota", "OK");
+            await Navigation.PushAsync(new Favorites());
         }
 
         private async void OnLoginClicked(object sender, EventArgs e)
@@ -47,10 +47,21 @@ namespace FinalWork
             await Navigation.PushAsync(new LoginPage());
         }
 
-        private void OnLogoutClicked(object sender, EventArgs e)
+        private async void OnLogoutClicked(object sender, EventArgs e)
         {
             Preferences.Set("IsLoggedIn", false);
+            // Удаляем информацию о входе
+            Preferences.Remove("IsLoggedIn");
+            Preferences.Remove("LoggedInUsername");
+
+            // Показываем сообщение
+            await DisplayAlert("Выход", "Вы вышли из аккаунта", "OK");
+
+            // Или можно закрыть текущую страницу, если вы используете NavigationPage
+            // await Navigation.PopToRootAsync();
             UpdateAuthButtons();
+
+
         }
     }
 }

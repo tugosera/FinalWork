@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
 using SQLite;
 
 namespace FinalWork
@@ -25,45 +26,68 @@ namespace FinalWork
         protected override async void OnAppearing()
         {
             base.OnAppearing();
-            await LoadHeroesAsync();
-        }
 
-        private async Task LoadHeroesAsync()
-        {
-            await _database.ClearHeroesAsync();
+            // 1. Загрузка из кэша
+            _allHeroes = await _database.GetHeroesAsync();
 
-            using var httpClient = new HttpClient();
-            var response = await httpClient.GetStringAsync("https://api.opendota.com/api/heroStats");
-            var heroesFromApi = JsonSerializer.Deserialize<List<HeroApiModel>>(response);
-
-            foreach (var hero in heroesFromApi)
+            if (_allHeroes.Any())
             {
-                string attribute = hero.primary_attr switch
-                {
-                    "str" => "Strength",
-                    "agi" => "Agility",
-                    "int" => "Intelligence",
-                    _ => "Universal"
-                };
-
-                var urlName = await GetValidHeroUrlName(hero.localized_name);
-
-                var heroData = new DotaHero
-                {
-                    Name = hero.localized_name,
-                    IconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/{hero.name.Replace("npc_dota_hero_", "")}.png",
-                    InfoUrl = $"https://www.dota2.com/hero/{urlName}",
-                    MainAttribute = attribute
-                };
-
-                await _database.AddHeroAsync(heroData);
+                GenerateHeroButtons(_allHeroes);
             }
 
-            _allHeroes = await _database.GetHeroesAsync();
-            GenerateHeroButtons(_allHeroes);
+            // 2. Фоновое обновление из API
+            _ = Task.Run(async () => await UpdateHeroesFromApiAsync());
         }
 
-        // Метод генерирует варианты url и проверяет содержимое страницы
+        private async Task UpdateHeroesFromApiAsync()
+        {
+            try
+            {
+                using var httpClient = new HttpClient();
+                var response = await httpClient.GetStringAsync("https://api.opendota.com/api/heroStats");
+                var heroesFromApi = JsonSerializer.Deserialize<List<HeroApiModel>>(response);
+
+                var updatedList = new List<DotaHero>();
+
+                foreach (var hero in heroesFromApi)
+                {
+                    string attribute = hero.primary_attr switch
+                    {
+                        "str" => "Strength",
+                        "agi" => "Agility",
+                        "int" => "Intelligence",
+                        _ => "Universal"
+                    };
+
+                    var urlName = await GetValidHeroUrlName(hero.localized_name);
+
+                    updatedList.Add(new DotaHero
+                    {
+                        Name = hero.localized_name,
+                        IconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/heroes/{hero.name.Replace("npc_dota_hero_", "")}.png",
+                        InfoUrl = $"https://www.dota2.com/hero/{urlName}",
+                        MainAttribute = attribute
+                    });
+                }
+
+                // Обновляем базу и интерфейс на главном потоке
+                await _database.ClearHeroesAsync();
+                foreach (var hero in updatedList)
+                    await _database.AddHeroAsync(hero);
+
+                _allHeroes = updatedList;
+
+                MainThread.BeginInvokeOnMainThread(() =>
+                {
+                    GenerateHeroButtons(_allHeroes);
+                });
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении героев: {ex.Message}");
+            }
+        }
+
         private async Task<string> GetValidHeroUrlName(string localizedName)
         {
             var variants = GenerateHeroUrlVariants(localizedName);
@@ -76,40 +100,30 @@ namespace FinalWork
                 try
                 {
                     var html = await httpClient.GetStringAsync(url);
-
                     if (IsValidHeroPage(html))
                         return variant;
                 }
                 catch
                 {
-                    // Игнорируем ошибки, пробуем следующий вариант
+                    // Пропускаем ошибку и пробуем следующий вариант
                 }
             }
 
-            // Если ни один вариант не прошел проверку, возвращаем первый вариант слитно
-            return variants[0];
+            return variants[0]; // Возврат первого варианта по умолчанию
         }
 
-        // Проверка, что страница содержит признак героя
         private bool IsValidHeroPage(string html)
         {
             if (string.IsNullOrWhiteSpace(html))
                 return false;
 
-            // Проверяем, содержит ли страница типичные элементы страницы героя
             return html.Contains("class=\"HeroNameHeader\"") || html.Contains("heroLore");
         }
 
-        // Генерация двух вариантов url: слитно и через тире
         private List<string> GenerateHeroUrlVariants(string localizedName)
         {
-            // Приводим к нижнему регистру и заменяем пробелы
             string lowerName = localizedName.ToLowerInvariant().Trim();
-
-            // Слитный вариант: убрать пробелы
             string noSpace = lowerName.Replace(" ", "");
-
-            // Вариант с тире: заменить пробелы на '-'
             string withDash = lowerName.Replace(" ", "-");
 
             return new List<string> { noSpace, withDash };

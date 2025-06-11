@@ -6,6 +6,7 @@ using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.Maui.Controls;
+using Microsoft.Maui.Dispatching;
 using SQLite;
 
 namespace FinalWork
@@ -27,16 +28,44 @@ namespace FinalWork
         {
             base.OnAppearing();
 
-            // Очистка базы перед загрузкой новых данных
-            await _database.ClearItemsAsync();
-
-            var items = await FetchDotaItemsAsync();
-
-            foreach (var item in items)
-                await _database.AddItemAsync(item);
-
+            // 1. Сначала загрузка из локальной базы (кэш)
             _allItems = await _database.GetItemsAsync();
-            ShowItems(_allItems);
+            if (_allItems.Any())
+            {
+                ShowItems(_allItems);
+            }
+
+            // 2. Фоновое обновление из API
+            _ = Task.Run(async () => await UpdateItemsFromApiAsync());
+        }
+
+        private async Task UpdateItemsFromApiAsync()
+        {
+            try
+            {
+                var itemsFromApi = await FetchDotaItemsAsync();
+
+                if (itemsFromApi?.Count > 0)
+                {
+                    await _database.ClearItemsAsync();
+
+                    foreach (var item in itemsFromApi)
+                    {
+                        await _database.AddItemAsync(item);
+                    }
+
+                    _allItems = itemsFromApi;
+
+                    MainThread.BeginInvokeOnMainThread(() =>
+                    {
+                        ShowItems(_allItems);
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Ошибка при обновлении предметов: {ex.Message}");
+            }
         }
 
         private void ShowItems(IEnumerable<DotaItem> items)
@@ -47,9 +76,9 @@ namespace FinalWork
         private async Task<List<DotaItem>> FetchDotaItemsAsync()
         {
             var items = new List<DotaItem>();
-            var httpClient = new HttpClient();
+            using var httpClient = new HttpClient();
             var response = await httpClient.GetStringAsync("https://api.opendota.com/api/constants/items");
-            var jsonDoc = JsonDocument.Parse(response);
+            using var jsonDoc = JsonDocument.Parse(response);
 
             foreach (var itemElement in jsonDoc.RootElement.EnumerateObject())
             {
@@ -61,24 +90,15 @@ namespace FinalWork
 
                 var shortKey = key.Replace("item_", "");
 
-                // Если ключ начинается с recipe — используем общую иконку рецепта
-                string iconUrl;
-                if (shortKey.StartsWith("recipe"))
-                {
-                    iconUrl = "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/recipe.png";
-                }
-                else
-                {
-                    iconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/{shortKey}.png";
-                }
+                string iconUrl = shortKey.StartsWith("recipe")
+                    ? "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/recipe.png"
+                    : $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/{shortKey}.png";
 
-                var isComposite = data.TryGetProperty("components", out var components) &&
-                                  components.ValueKind == JsonValueKind.Array &&
-                                  components.GetArrayLength() > 0;
+                bool isComposite = data.TryGetProperty("components", out var components) &&
+                                   components.ValueKind == JsonValueKind.Array &&
+                                   components.GetArrayLength() > 0;
 
-                // Проверка на нейтральность
                 bool isNeutral = false;
-
                 if (data.TryGetProperty("neutral_item", out var neutralProp))
                 {
                     isNeutral = neutralProp.ValueKind switch
