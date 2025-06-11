@@ -66,6 +66,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <MauiXaml Update="FavoriteItemsPage.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
 	  <MauiXaml Update="Favorites.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>

@@ -4,29 +4,41 @@
 
     <AbsoluteLayout>
 
+        <!-- Верхняя левая кнопка -->
         <ImageButton
             x:Name="LeftTopButton"
             Clicked="OnLeftTopClicked"
             AbsoluteLayout.LayoutBounds="40, 120, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
-            Source="dotnet_bot.png"
+            Source="pudge.png"
             BackgroundColor="Transparent"
             Aspect="AspectFill" />
 
+        <!-- Верхняя правая кнопка -->
         <ImageButton 
             x:Name="RightTopButton"
-            Source="dotnet_bot.png"
+            Source="furion.png"
             Clicked="OnRightTopClicked"
             AbsoluteLayout.LayoutBounds="230, 120, 120, 100"
             AbsoluteLayout.LayoutFlags="None"
             Aspect="AspectFill" />
 
+        <!-- Нижняя левая кнопка -->
         <Button 
             x:Name="BottomButton"
-            Text=""
+            Text="лулеул"
             Clicked="OnBottomClicked"
-            AbsoluteLayout.LayoutBounds="80, 450, 250, 60"
+            AbsoluteLayout.LayoutBounds="40, 450, 120, 60"
             AbsoluteLayout.LayoutFlags="None" />
+
+        <!-- Нижняя правая кнопка -->
+        <Button 
+            x:Name="RightBottomButton"
+            Text="Избранные"
+            Clicked="OnRightBottomClicked"
+            AbsoluteLayout.LayoutBounds="230, 450, 120, 60"
+            AbsoluteLayout.LayoutFlags="None" />
+
 
         <!-- Кнопка входа -->
         <ImageButton 
@@ -48,6 +60,6 @@
             AbsoluteLayout.LayoutBounds="360, 40, 80, 40"
             AbsoluteLayout.LayoutFlags="None"
             IsVisible="False" />
-    </AbsoluteLayout>
 
+    </AbsoluteLayout>
 </ContentPage>

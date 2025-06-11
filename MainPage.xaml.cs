@@ -25,6 +25,7 @@ namespace FinalWork
             LoginButton.IsVisible = !isLoggedIn;
             LogoutButton.IsVisible = isLoggedIn;
             BottomButton.IsVisible = isLoggedIn;
+            RightBottomButton.IsVisible = isLoggedIn;
         }
 
         private async void OnLeftTopClicked(object sender, EventArgs e)
@@ -40,6 +41,10 @@ namespace FinalWork
         private async void OnBottomClicked(object sender, EventArgs e)
         {
             await Navigation.PushAsync(new Favorites());
+        }
+        private async void OnRightBottomClicked(object sender, EventArgs e)
+        {
+            await Navigation.PushAsync(new FavoriteItemsPage());
         }
 
         private async void OnLoginClicked(object sender, EventArgs e)
