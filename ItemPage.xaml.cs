@@ -90,13 +90,19 @@ namespace FinalWork
 
                 var shortKey = key.Replace("item_", "");
 
-                string iconUrl = shortKey.StartsWith("recipe")
-                    ? "https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/recipe.png"
-                    : $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/{shortKey}.png";
+                // Исключаем предметы, в названии которых есть "recipe"
+                if (shortKey.Contains("recipe", StringComparison.OrdinalIgnoreCase))
+                    continue;
 
-                bool isComposite = data.TryGetProperty("components", out var components) &&
-                                   components.ValueKind == JsonValueKind.Array &&
-                                   components.GetArrayLength() > 0;
+                string iconUrl = $"https://cdn.cloudflare.steamstatic.com/apps/dota2/images/dota_react/items/{shortKey}.png";
+
+                int componentsCount = 0;
+                if (data.TryGetProperty("components", out var components) && components.ValueKind == JsonValueKind.Array)
+                {
+                    componentsCount = components.GetArrayLength();
+                }
+
+                bool isComposite = componentsCount > 0;
 
                 bool isNeutral = false;
                 if (data.TryGetProperty("neutral_item", out var neutralProp))
@@ -125,6 +131,7 @@ namespace FinalWork
                     Name = name,
                     IconUrl = iconUrl,
                     IsComposite = isComposite,
+                    ComponentsCount = componentsCount,
                     IsNeutral = isNeutral,
                     InfoUrl = infoUrl
                 });
@@ -136,6 +143,7 @@ namespace FinalWork
         private void OnNormalClicked(object sender, EventArgs e)
         {
             if (_allItems == null) return;
+            // Показываем только обычные предметы, которые не являются рецептом и не собираются из других
             var filtered = _allItems.Where(i => !i.IsComposite && !i.IsNeutral);
             ShowItems(filtered);
         }
@@ -144,13 +152,6 @@ namespace FinalWork
         {
             if (_allItems == null) return;
             var filtered = _allItems.Where(i => i.IsComposite && !i.IsNeutral);
-            ShowItems(filtered);
-        }
-
-        private void OnNeutralClicked(object sender, EventArgs e)
-        {
-            if (_allItems == null) return;
-            var filtered = _allItems.Where(i => i.IsNeutral);
             ShowItems(filtered);
         }
 
@@ -172,6 +173,7 @@ namespace FinalWork
         public string IconUrl { get; set; }
         public string InfoUrl { get; set; }
         public bool IsComposite { get; set; }
+        public int ComponentsCount { get; set; }  // Можно добавить, если нужно
         public bool IsNeutral { get; set; }
     }
 
